@@ -37,6 +37,12 @@ async function run() {
             res.send(result);
         })
 
+        app.get('/coffee', async (req, res) => {
+            const cursor = coffeeCollection.find();
+            const result = await cursor.toArray();
+            res.send(result);
+        })
+
 
 
 
