@@ -38,7 +38,11 @@ async function run() {
         })
 
         app.get('/coffee', async (req, res) => {
-            const cursor = coffeeCollection.find();
+            // return only selected fields to client side
+            const options = {
+                projection: { _id: 1, name: 1, photo: 1, chef: 1, price: 1 }
+            }
+            const cursor = coffeeCollection.find({}, options);
             const result = await cursor.toArray();
             res.send(result);
         })
