@@ -54,6 +54,27 @@ async function run() {
             res.send(result);
         })
 
+        app.put('/coffee/:id', async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: new ObjectId(id) }; // same as find (select which data will be updated)
+            const options = { upsert: true }; // will insert new if _id does not matched
+            const updatedCoffee = req.body; // updated data from client
+            const updateCoffee = {
+                $set: {
+                    name: updatedCoffee.name,
+                    quantity: updatedCoffee.quantity,
+                    chef: updatedCoffee.chef,
+                    supplier: updatedCoffee.supplier,
+                    category: updatedCoffee.category,
+                    details: updatedCoffee.details,
+                    photo: updatedCoffee.photo,
+                    price: updatedCoffee.price
+                }
+            };
+            const result = await coffeeCollection.updateOne(filter, updateCoffee, options);
+            res.send(result);
+        })
+
         app.delete('/coffee/:id', async (req, res) => {
             const id = req.params.id;
             console.log(id);
